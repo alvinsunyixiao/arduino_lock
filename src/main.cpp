@@ -30,6 +30,9 @@ void loop() {
       disp.clear();
       disp.display("We don't \rkown you");
     }
+    else if (name=="noface") {
+      disp.clear();
+    }
     else {
       timer = millis();
       myServo.write(dooropen);
