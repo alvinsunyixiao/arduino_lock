@@ -5,6 +5,7 @@
 lcd disp;
 const int dooropen = 10;
 const int doorclosed = 170;
+const unsigned long closeTime = 15000;
 volatile unsigned long timer;
 Servo myServo;
 void setup() {
@@ -17,7 +18,7 @@ void setup() {
 void loop() {
 
   String name;
-  if (millis()-timer > 4000) {
+  if (millis()-timer > closeTime) {
     myServo.write(doorclosed);
     disp.lightOff();
     disp.clear();
@@ -26,19 +27,23 @@ void loop() {
     name = Serial.readStringUntil('\n');
     Serial.println("hi");
     Serial.println(name);
-    if (name=="unkown") {
-      disp.clear();
-      disp.display("We don't \rkown you");
-    }
-    else if (name=="noface") {
+
+    if (name==String("noface")) {
       disp.clear();
     }
     else {
       timer = millis();
-      myServo.write(dooropen);
-      char namebuff[name.length()+1];
-      name.toCharArray(namebuff, name.length()+1);
-      disp.hello(namebuff);
+      if (name==String("unkown")) {
+        disp.clear();
+        disp.lightOn();
+        disp.display("We don't \rkown you");
+      }
+      else {
+        myServo.write(dooropen);
+        char namebuff[name.length()+1];
+        name.toCharArray(namebuff, name.length()+1);
+        disp.hello(namebuff);
+      }
     }
   }
 }
