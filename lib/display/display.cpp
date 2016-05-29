@@ -21,7 +21,7 @@ void lcd::display(const char *s, int wait) {
 
 void lcd::hello(const char *s, int wait) {
   clear();
-  lightOn();
+  //lightOn();
   display("Hello\r");
   display(s,wait);
 }
